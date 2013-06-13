@@ -27,15 +27,15 @@ class helloworld {
     ensure => present,
   }
 
-  service { "tomcat":
-    ensure => running,
-    require => Package["tomcat"],
-  }
+  #service { "tomcat":
+  #  ensure => running,
+  #  require => Package["apache-tomcat"],
+  #}
 }
 
 class baserepo {
-   yumrepo { "Local Repo":
-      baseurl => "/yum-repo",
+   yumrepo { "Local-Repo":
+      baseurl => "file:///yum-repo",
       descr => "Local yum repo",
       enabled => 1,
       gpgcheck => 0
