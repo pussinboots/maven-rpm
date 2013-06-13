@@ -23,6 +23,17 @@ class apache {
 }
 
 class helloworld {
+  
+  file { '/usr/java':
+    ensure => directory
+  }
+  
+  file { '/usr/java/latest/':
+    ensure => link,
+    target => "/usr/lib/jvm/java-1.7.0/",
+    force  => true
+  }
+  
   package { "helloworld":
     ensure => present,
   }
@@ -31,6 +42,7 @@ class helloworld {
   #  ensure => running,
   #  require => Package["apache-tomcat"],
   #}
+  
 }
 
 class baserepo {
