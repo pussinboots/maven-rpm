@@ -11,7 +11,7 @@
     <properties>
         <rpm.file.owner>tomcat</rpm.file.owner>
         <rpm.file.group>tomcat</rpm.file.group>
-        <rpm.install.target>/webapps</rpm.install.target>
+        <rpm.install.target>/usr/share/tomcat/webapps</rpm.install.target>
     </properties>
 
     <dependencies>
