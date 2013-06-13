@@ -36,7 +36,9 @@ Vagrant::Config.run do |config|
   # folder, and the third is the path on the host to the actual folder.
   config.vm.share_folder "local-yumrepo", "/yum-repo", "yum-repo"
   # Enable the Puppet provisioner
-  config.vm.provision :puppet
+  config.vm.provision :puppet do |puppet|
+    puppet.options = "--verbose --debug"
+  end
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.

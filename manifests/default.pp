@@ -1,25 +1,47 @@
 # Basic Puppet Apache manifest
 
 class apache {
-  exec { 'apt-get update':
-    command => '/usr/bin/apt-get update'
+  exec { 'yum update':
+    command => '/usr/bin/yum -y update'
   }
 
-  package { "apache2":
+  package { "httpd":
     ensure => present,
   }
 
-  service { "apache2":
+  service { "httpd":
     ensure => running,
-    require => Package["apache2"],
+    require => Package["httpd"],
   }
 
-  file { '/var/www':
-    ensure => link,
-    target => "/vagrant",
-    notify => Service['apache2'],
+  file { '/var/www/html/index.html':
+  #  ensure => link,
+    source => "/vagrant/index.html",
+    notify => Service['httpd'],
     force  => true
   }
 }
 
+class helloworld {
+  package { "helloworld":
+    ensure => present,
+  }
+
+  service { "tomcat":
+    ensure => running,
+    require => Package["tomcat"],
+  }
+}
+
+class baserepo {
+   yumrepo { "Local Repo":
+      baseurl => "/yum-repo",
+      descr => "Local yum repo",
+      enabled => 1,
+      gpgcheck => 0
+   }
+}
+
+include baserepo
+include helloworld
 include apache
