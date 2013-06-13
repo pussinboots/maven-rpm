@@ -15,7 +15,6 @@ class apache {
   }
 
   file { '/var/www/html/index.html':
-  #  ensure => link,
     source => "/vagrant/index.html",
     notify => Service['httpd'],
     force  => true
@@ -56,4 +55,4 @@ class baserepo {
 
 include baserepo
 include helloworld
-include apache
+#include apache
