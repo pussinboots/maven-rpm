@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="rpm-hello-world:war exploded">
+    <output-path>$PROJECT_DIR$/target/helloworld</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="rpm-hello-world/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="rpm-hello-world" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: javax.servlet:servlet-api:2.5" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

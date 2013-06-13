@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.frank.maven.rpm</groupId>
+    <artifactId>helloworld</artifactId>
+    <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>helloworld Maven Webapp</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <rpm.file.owner>tomcat</rpm.file.owner>
+        <rpm.file.group>tomcat</rpm.file.group>
+        <rpm.install.target>/webapps</rpm.install.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>helloworld</finalName>
+        <plugins>
+            <plugin>
+                <groupId>de.qu.maven.maven-plugins</groupId>
+                <artifactId>copy-maven-plugin</artifactId>
+                <version>1.0.3</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-files</goal>
+                        </goals>
+                        <configuration>
+                            <copyActions>
+                                <copy-files>
+                                    <files>
+                                        <file>target/rpm/${build.finalName}/RPMS/**.rpm</file>
+                                    </files>
+                                    <targetDirectory>
+                                        yum-repo
+                                    </targetDirectory>
+                                </copy-files>
+                            </copyActions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>rpm-maven-plugin</artifactId>
+                <version>2.1-alpha-2</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>rpm</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <prefix>/usr/share/tomcat</prefix>
+                    <copyright>2013, Frank Ittermann</copyright>
+                    <distribution>helloworld</distribution>
+                    <group>WebApplication</group>
+                    <packager>FrankIttermann</packager>
+                    <autoRequires>true</autoRequires>
+                    <requires>
+                        <require>java-1.7.0-openjdk-devel &gt;= 1:1.7</require>
+                        <require>apache-tomcat &gt;= 7.0</require>
+                    </requires>
+                    <defineStatements>
+                        <defineStatement>stop and start tomcat</defineStatement>
+                    </defineStatements>
+                    <mappings>
+                        <mapping>
+                            <directory>${rpm.install.target}</directory>
+                            <filemode>755</filemode>
+                            <username>${rpm.file.owner}</username>
+                            <groupname>${rpm.file.group}</groupname>
+                            <sources>
+                                <source>
+                                    <location>target/${build.finalName}.war</location>
+                                </source>
+                            </sources>
+                        </mapping>
+                    </mappings>
+                    <preinstallScriptlet>
+                        <scriptFile>rpm/undeploy.sh</scriptFile>
+                    </preinstallScriptlet>
+                    <postinstallScriptlet>
+                        <scriptFile>rpm/deploy.sh</scriptFile>
+                    </postinstallScriptlet>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
