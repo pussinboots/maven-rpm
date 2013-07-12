@@ -1,2 +1,8 @@
+This is a simple helloworld web archive (war) project.
+
+That illustrates the use of maven rpm plugin to build a 
+simple automated deployment with RPM and puppet.
+
 Required:
  - rpm (install with apt-get install rpm)
+ - vagrant (optional to test the puppet deployment) (install with apt-get install vagrant)
