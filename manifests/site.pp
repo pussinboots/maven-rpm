@@ -1,5 +1,7 @@
 # Basic Puppet Apache manifest
 
+import "nodes"
+
 class apache {
   exec { 'yum update':
     command => '/usr/bin/yum -y update'
@@ -53,6 +55,6 @@ class baserepo {
    }
 }
 
-include baserepo
-include helloworld
+#include baserepo
+#include helloworld
 #include apache
