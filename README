@@ -3,6 +3,15 @@ This is a simple helloworld web archive (war) project.
 That illustrates the use of maven rpm plugin to build a 
 simple automated deployment with RPM and puppet.
 
+The basic things like register yum repo and install the helloworld rpm
+from that repo is done by puppet. The dependencies of the helloworld rpm
+like java and tomcat are managed by the rpm specification in the pom.xml
+file with the maven rpm plugin. 
+
+This is a minimal puppet approach the rpm dependencies could also be managed
+by puppet.
+
 Required:
  - rpm (install with apt-get install rpm)
  - vagrant (optional to test the puppet deployment) (install with apt-get install vagrant)
+ - puppet
