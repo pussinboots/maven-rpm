@@ -1,11 +1,14 @@
 # Basic Puppet Apache manifest
 
 import "nodes"
+import "clean"
 
 class apache {
   exec { 'yum update':
     command => '/usr/bin/yum -y update'
   }
+  #yum_update{ 'yum update'
+  #}
 
   package { "httpd":
     ensure => present,
@@ -28,6 +31,7 @@ class helloworld {
   file { '/usr/java':
     ensure => directory
   }
+  #yum_update{'yum update'}
   
   file { '/usr/java/latest/':
     ensure => link,
@@ -37,24 +41,5 @@ class helloworld {
   
   package { "helloworld":
     ensure => present,
-  }
-
-  #service { "tomcat":
-  #  ensure => running,
-  #  require => Package["apache-tomcat"],
-  #}
-  
+  } 
 }
-
-class baserepo {
-   yumrepo { "Local-Repo":
-      baseurl => "file:///yum-repo",
-      descr => "Local yum repo",
-      enabled => 1,
-      gpgcheck => 0
-   }
-}
-
-#include baserepo
-#include helloworld
-#include apache
