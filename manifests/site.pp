@@ -7,8 +7,6 @@ class apache {
   exec { 'yum update':
     command => '/usr/bin/yum -y update'
   }
-  #yum_update{ 'yum update'
-  #}
 
   package { "httpd":
     ensure => present,
@@ -31,12 +29,10 @@ class helloworld {
     command => '/usr/bin/yum -y update',
     require => Yumrepo["Local-Repo"],
   }
-  
+
   file { '/usr/java':
     ensure => directory
   }
-  
-  #yum_update{'yum update'}
   
   file { '/usr/java/latest/':
     ensure => link,
@@ -45,18 +41,21 @@ class helloworld {
     require => Exec['yum update']
   }
 
-  package { ["helloworld"]:
-    ensure => present,
-    require => File['/usr/java/latest/']
-  }
+  ## prepare handling of java and tomcat dependency with puppet instead of the rpm itself
   
   #package { ["java-1.7.0-openjdk-devel"]:
   #  ensure => present,
-  #  require => Exec['yum update']
+  #  require => File['/usr/java/latest/']
   #}
   
   #package { ["apache-tomcat-7.0.41-1.noarch"]:
   #  ensure => present,
   #  require => Package["java-1.7.0-openjdk-devel"],
   #} 
+  
+  package { ["helloworld"]:
+    ensure => present,
+    require => File['/usr/java/latest/'],
+    #require => Package["apache-tomcat-7.0.41-1.noarch"]
+  }
 }
