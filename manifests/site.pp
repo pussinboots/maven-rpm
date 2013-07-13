@@ -10,6 +10,7 @@ class apache {
 
   package { "httpd":
     ensure => present,
+    require => Exec['yum update'],
   }
 
   service { "httpd":
