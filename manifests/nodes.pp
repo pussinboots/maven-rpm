@@ -4,7 +4,6 @@ node 'helloworld.com' {
 }
 
 node 'apache.com' {
-    include baserepo
     include apache
 }
 

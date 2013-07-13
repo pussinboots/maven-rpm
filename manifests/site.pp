@@ -4,13 +4,17 @@ import "nodes"
 import "clean"
 
 class apache {
+  exec { 'allow http connections':
+    command => '/sbin/iptables -I INPUT 5 -m state --state NEW -p tcp --dport 80 -j ACCEPT'
+  }
+  
   exec { 'yum update':
     command => '/usr/bin/yum -y update'
   }
 
   package { "httpd":
     ensure => present,
-    require => Exec['yum update'],
+    require => Exec['yum update', 'allow http connections'],
   }
 
   service { "httpd":
@@ -30,6 +34,10 @@ class helloworld {
     command => '/usr/bin/yum -y update',
     require => Yumrepo["Local-Repo"],
   }
+  
+  exec { 'allow http connections on port 8080':
+    command => '/sbin/iptables -I INPUT 5 -m state --state NEW -p tcp --dport 8080 -j ACCEPT'
+  }
 
   file { '/usr/java':
     ensure => directory
@@ -39,7 +47,7 @@ class helloworld {
     ensure => link,
     target => "/usr/lib/jvm/java-1.7.0/",
     force  => true,
-    require => Exec['yum update']
+    require => Exec['yum update', 'allow http connections on port 8080']
   }
 
   ## prepare handling of java and tomcat dependency with puppet instead of the rpm itself
