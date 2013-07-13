@@ -27,6 +27,9 @@ class apache {
 }
 
 class helloworld {
+  exec { 'yum update':
+    command => '/usr/bin/yum -y update'
+  }
   
   file { '/usr/java':
     ensure => directory

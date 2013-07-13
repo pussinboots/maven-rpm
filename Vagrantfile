@@ -13,11 +13,11 @@ Vagrant::Config.run do |config|
 	  apache_config.vm.host_name = "apache.com" 
    end
    
-    config.vm.share_folder "local-yumrepo", "/yum-repo", "yum-repo"
+   config.vm.share_folder "local-yumrepo", "/yum-repo", "yum-repo"
     # Enable the Puppet provisioner
-    config.vm.provision :puppet do |puppet|
-      puppet.options = "--verbose --debug"
-      puppet.manifest_file  = "site.pp"
-    end
+   config.vm.provision :puppet do |puppet|
+	puppet.options = "--verbose --debug"
+	puppet.manifest_file  = "site.pp"
+   end
 end
 
