@@ -28,21 +28,35 @@ class apache {
 
 class helloworld {
   exec { 'yum update':
-    command => '/usr/bin/yum -y update'
+    command => '/usr/bin/yum -y update',
+    require => Yumrepo["Local-Repo"],
   }
   
   file { '/usr/java':
     ensure => directory
   }
+  
   #yum_update{'yum update'}
   
   file { '/usr/java/latest/':
     ensure => link,
     target => "/usr/lib/jvm/java-1.7.0/",
-    force  => true
+    force  => true,
+    require => Exec['yum update']
+  }
+
+  package { ["helloworld"]:
+    ensure => present,
+    require => File['/usr/java/latest/']
   }
   
-  package { "helloworld":
-    ensure => present,
-  } 
+  #package { ["java-1.7.0-openjdk-devel"]:
+  #  ensure => present,
+  #  require => Exec['yum update']
+  #}
+  
+  #package { ["apache-tomcat-7.0.41-1.noarch"]:
+  #  ensure => present,
+  #  require => Package["java-1.7.0-openjdk-devel"],
+  #} 
 }
