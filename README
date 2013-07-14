@@ -34,3 +34,23 @@ Let's start.
    $ wget localhost
    >result should be
    <h1>Hello from a Vagrant VM</h1>
+   
+
+The helloworld vm will be setup with ip address 192.168.1.10 and the helloworld app can also be
+requested with http://192.168.1.10:8080/helloworld.
+
+The apache vm will be setup with ip address 192.168.1.11 and the index.html file can also be
+requested with http://192.168.1.11.
+
+You can change the ip address in the Vagrant file see web_config.vm.network :hostonly, "192.168.1.10" or
+apache_config.vm.network :hostonly, "192.168.1.11".
+
+Enyoj playing around with it.
+
+The missing part of that is how you can deploy new version of helloworld and or index.html file. 
+I will explain it in some days it is really simple. 
+
+If you have questions or have problem feel free to contact me.
+pussinboots666@googlemail.com.
+
+
