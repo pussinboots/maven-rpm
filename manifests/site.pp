@@ -3,13 +3,12 @@
 import "nodes"
 import "clean"
 
+# to make it referencable for require
+include yum
+
 class apache {
   exec { 'allow http connections':
     command => '/sbin/iptables -I INPUT 5 -m state --state NEW -p tcp --dport 80 -j ACCEPT'
-  }
-  
-  exec { 'yum update':
-    command => '/usr/bin/yum -y update'
   }
 
   package { "httpd":
@@ -25,16 +24,16 @@ class apache {
   file { '/var/www/html/index.html':
     source => "/vagrant/index.html",
     notify => Service['httpd'],
-    force  => true
+    force  => true,
+	require => Service["httpd"]
   }
 }
 
-class helloworld {
-  exec { 'yum update':
-    command => '/usr/bin/yum -y update',
-    require => Yumrepo["Local-Repo"],
-  }
-  
+class tomcat-webapp {
+
+  $weppname = "helloworld"
+
+  # only insert if not already there
   exec { 'allow http connections on port 8080':
     command => '/sbin/iptables -I INPUT 5 -m state --state NEW -p tcp --dport 8080 -j ACCEPT'
   }
@@ -47,7 +46,7 @@ class helloworld {
     ensure => link,
     target => "/usr/lib/jvm/java-1.7.0/",
     force  => true,
-    require => Exec['yum update', 'allow http connections on port 8080']
+    require => Exec['yum clean']
   }
 
   ## prepare handling of java and tomcat dependency with puppet instead of the rpm itself
@@ -62,8 +61,8 @@ class helloworld {
   #  require => Package["java-1.7.0-openjdk-devel"],
   #} 
   
-  package { ["helloworld"]:
-    ensure => present,
+  package { $weppname:
+    ensure => latest,
     require => File['/usr/java/latest/'],
     #require => Package["apache-tomcat-7.0.41-1.noarch"]
   }

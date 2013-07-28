@@ -45,6 +45,10 @@ Let's start.
    >result should be
    <h1>Hello from a Vagrant VM</h1>
    
+There are still a problem with yum update it takes to long for puppet for the first run. The
+workaround for that is to start a second run with $vagrant provision
+.
+   
 
 The helloworld vm will be setup with ip address 192.168.1.10 and the helloworld app can also be
 requested with http://192.168.1.10:8080/helloworld.
