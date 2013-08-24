@@ -58,7 +58,7 @@
             <!-- here the phase you need -->
             <phase>install</phase>
             <goals>
-              <goal>copy-files</goal>
+              <goal>copy-resources</goal>
             </goals>
             <configuration>
               <outputDirectory>yum-repo</outputDirectory>
