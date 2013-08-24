@@ -24,6 +24,14 @@
     <build>
         <finalName>helloworld</finalName>
         <plugins>
+            <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <configuration>
+                   <source>1.7</source>
+                   <target>1.7</target>
+                 </configuration>
+            </plugin>
             <!--<plugin>
                 <groupId>de.qu.maven.maven-plugins</groupId>
                 <artifactId>copy-maven-plugin</artifactId>
