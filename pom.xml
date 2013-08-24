@@ -24,7 +24,7 @@
     <build>
         <finalName>helloworld</finalName>
         <plugins>
-            <plugin>
+            <!--<plugin>
                 <groupId>de.qu.maven.maven-plugins</groupId>
                 <artifactId>copy-maven-plugin</artifactId>
                 <version>1.0.3</version>
@@ -48,7 +48,30 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
+            <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <!-- here the phase you need -->
+            <phase>install</phase>
+            <goals>
+              <goal>copy-files</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>yum-repo</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>target/rpm/${build.finalName}/RPMS/**.rpm</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
+        </executions>
+      </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>rpm-maven-plugin</artifactId>
